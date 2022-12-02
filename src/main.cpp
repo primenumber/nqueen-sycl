@@ -67,6 +67,7 @@ int main(int argc, char** argv) {
   // create a kernel
   queue q(d);
 
+  const auto start = clk_t::now();
   std::cerr << "Start expansion" << std::endl;
   const auto tasks = expand(n, expansion);
   const auto task_count = size(tasks);
@@ -146,11 +147,8 @@ int main(int argc, char** argv) {
         result[idx] = answer;
     });
   });
-
-  const auto start = clk_t::now();
   e.wait();
-  const auto finish = clk_t::now();
-  std::cerr << "Elapsed: " << std::chrono::duration<double, std::milli>(finish - start).count() << "ms" << std::endl;
+
   std::vector<size_t> result_h(k);
   q.submit([&](handler& h) {
       h.memcpy(result_h.data(), result, k * sizeof(size_t));
@@ -158,6 +156,8 @@ int main(int argc, char** argv) {
   size_t sum = 0;
   for (auto&& e : result_h) sum += e;
   std::cerr << sum << std::endl;
+  const auto finish = clk_t::now();
+  std::cerr << "Elapsed: " << std::chrono::duration<double, std::milli>(finish - start).count() << "ms" << std::endl;
 
   return 0;
 }
