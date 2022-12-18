@@ -25,20 +25,20 @@ struct NQueenTasks {
 };
 
 
-void expand_impl(size_t n, size_t depth, uint32_t left, uint32_t middle, uint32_t right,
+void expand_impl(size_t n, size_t expansion, size_t depth, uint32_t left, uint32_t middle, uint32_t right,
     NQueenTasks& tasks) {
-  if (depth == 0) {
+  uint32_t mask = (1 << n) - 1;
+  if (depth == expansion) {
     tasks.push(left, middle, right);
     return;
   }
-  uint32_t mask = (1 << n) - 1;
   auto remains = mask & ~(left | middle | right);
   while (remains) {
     auto bit = remains & -remains;
     auto next_l = (left | bit) << 1;
     auto next_m = middle | bit;
     auto next_r = (right | bit) >> 1;
-    expand_impl(n, depth-1, next_l, next_m, next_r, tasks);
+    expand_impl(n, expansion, depth+1, next_l, next_m, next_r, tasks);
     remains ^= bit;
   }
 }
@@ -46,7 +46,7 @@ void expand_impl(size_t n, size_t depth, uint32_t left, uint32_t middle, uint32_
 NQueenTasks expand(size_t n, size_t expansion) {
   NQueenTasks tasks;
   
-  expand_impl(n, expansion, 0, 0, 0, tasks);
+  expand_impl(n, expansion, 0, 0, 0, 0, tasks);
   return tasks;
 }
 
