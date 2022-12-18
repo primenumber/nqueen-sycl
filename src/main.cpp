@@ -104,6 +104,7 @@ int main(int argc, char** argv) {
           uint32_t middle = v_middle[i];
           uint32_t right = v_right[i];
           uint32_t right_under = 0;
+          uint32_t left_over = 0;
           ptrdiff_t depth = 0;
           stack_remains[depth] = mask & ~(left | middle | right);
           auto stack_pop = [&] {
@@ -111,6 +112,8 @@ int main(int argc, char** argv) {
             uint32_t& remains = stack_remains[depth];
             uint32_t bit = remains & -remains;
             left >>= 1;
+            left |= left_over << 31;
+            left_over >>= 1;
             right <<= 1;
             right |= right_under >> 31;
             right_under <<= 1;
@@ -125,6 +128,8 @@ int main(int argc, char** argv) {
             left ^= bit;
             middle ^= bit;
             right ^= bit;
+            left_over <<= 1;
+            left_over |= left >> 31;
             left <<= 1;
             right_under >>= 1;
             right_under |= right << 31;
