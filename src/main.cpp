@@ -2,8 +2,7 @@
 #include <iostream>
 #include <random>
 
-// located in $ONEAPI_ROOT/compiler/latest/linux/include/sycl/
-#include <CL/sycl.hpp>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -58,14 +57,8 @@ int main(int argc, char** argv) {
 
   std::cerr << n << " " << expansion << std::endl;
 
-  // create GPU device selector
-  gpu_selector device_selector;
-
-  device d = device(device_selector);
-  print_device_info(d);
-
   // create a kernel
-  queue q(d);
+  queue q;
 
   const auto start = clk_t::now();
   std::cerr << "Start expansion" << std::endl;

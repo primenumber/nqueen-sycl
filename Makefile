@@ -1,14 +1,14 @@
 TARGET   = nqueen
 SRCS     = src/main.cpp
 
-CXX      = dpcpp
-CXXFLAGS = -I. -std=c++17
+CXX      = icpx
+CXXFLAGS = -fsycl -I. -std=c++17
 LDFLAGS  =
 
 ifeq ($(BUILD_MODE), release)
     CXXFLAGS += -O3
 else
-    CXXFLAGS += -g
+    CXXFLAGS += -Og -g
 endif
 
 .PHONY: all build run clean
