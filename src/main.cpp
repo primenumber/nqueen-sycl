@@ -52,6 +52,10 @@ NQueenTasks expand(size_t n, size_t expansion) {
 int main(int argc, char** argv) {
   using std::size;
   using clk_t = std::chrono::high_resolution_clock;
+  if (argc < 3) {
+    std::cerr << "Usage: nqueen N expansion" << std::endl;
+    exit(EXIT_FAILURE);
+  }
   const size_t n = atol(argv[1]);
   const size_t expansion = atol(argv[2]);
 
