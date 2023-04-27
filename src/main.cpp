@@ -154,5 +154,10 @@ int main(int argc, char** argv) {
   const auto finish = clk_t::now();
   std::cerr << "Elapsed: " << std::chrono::duration<double, std::milli>(finish - start).count() << "ms" << std::endl;
 
+  free(v_left);
+  free(v_middle);
+  free(v_right);
+  free(result);
+
   return 0;
 }
