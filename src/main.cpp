@@ -84,7 +84,7 @@ int main(int argc, char** argv) {
   std::cerr << "Start" << std::endl;
   auto e = q.submit([&](handler& h) {
     h.parallel_for(k, [=](auto& idx) {
-        constexpr size_t stack_depth = 32;
+        constexpr size_t stack_depth = 24;
         const size_t remain_depth = n - expansion;
         const uint32_t mask = (1 << n) - 1;
         uint32_t stack_remains[stack_depth];
