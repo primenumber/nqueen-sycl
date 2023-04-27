@@ -1,5 +1,7 @@
 TARGET   = nqueen
+DEVICE_INFO = device_info
 SRCS     = src/main.cpp
+DI_SRCS     = src/device_info.cpp
 
 CXX      = icpx
 CXXFLAGS = -fsycl -I. -std=c++17
@@ -18,9 +20,12 @@ endif
 all: build
 
 # build the project
-build: $(TARGET)
+build: $(TARGET) $(DEVICE_INFO)
 
 $(TARGET): $(SRCS)
+	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+
+$(DEVICE_INFO): $(DI_SRCS)
 	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 # run binary
